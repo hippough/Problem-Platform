@@ -16,7 +16,7 @@ export default function Contact() {
             </p>
             <p>
               You can contact us via email at{" "}
-              <a href="mailto:contact@problemplatform.com">contact@problemplatform.com</a>.
+              <a href="mailto:ethan@theproblemplatform.com">ethan@theproblemplatform.com</a>.
             </p>
             <br/>
             <p>We look forward to hearing from you!</p>
