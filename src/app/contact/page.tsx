@@ -11,7 +11,7 @@ export default function Contact() {
             <h1>Contact Us</h1>
             <p>
               If you have any questions, concerns, or just want to get in touch,
-              please feel free to reach out to us. We're here to help and would
+              please feel free to reach out to us. We are here to help and would
               love to hear from you.
             </p>
             <p>

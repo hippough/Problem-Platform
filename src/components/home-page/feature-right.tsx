@@ -52,7 +52,7 @@ const Feature = () => {
             <AccordionItem value="item-3">
               <AccordionTrigger className="text-sm md:text-s py-1">Share your thoughts.</AccordionTrigger>
               <AccordionContent className="text-sm md:text-s">
-                Add comments to problems you're interested in.
+                Add comments to problems you are interested in.
               </AccordionContent>
             </AccordionItem>
           </Accordion>
