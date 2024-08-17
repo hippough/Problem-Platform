@@ -5,11 +5,6 @@ import client from "./lib/db"
 
 import { DefaultSession } from "next-auth";
 
-export const config = {
-  maxDuration: 60,
-};
-
-
 
 declare module "next-auth" {
   interface User {
