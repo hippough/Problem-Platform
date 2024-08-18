@@ -13,6 +13,7 @@ import Toggles from "./Toggles";
 import { ObjectId } from "mongodb";
 import { toast } from "sonner";
 import CommentCard from "./CommentCard";
+import { ScrollArea } from "../ui/scroll-area";
 
 interface comment {
     num: number,
@@ -129,20 +130,22 @@ const CommentButton: FC<comment> = ({ num: num, postString: postString, text: te
                         <Button type="submit">Post Comment</Button>
                         
                     </SheetFooter>
-                    <SheetDescription>
+                    <SheetDescription className="py-1">
                         {comments.length} comments
                     </SheetDescription>
 
-                    <div className="py-4 space-y-4">
-                        {comments.map((comment: any) => (
+                    <ScrollArea className="py-4 max-h-[340px] overflow-y-auto">
+                        <div className="space-y-4">
+                            {comments.map((comment: any) => (
                             <CommentCard
                                 key={comment._id}
                                 user={comment.name}
                                 text={comment.description}
                                 createdAt={comment.createdAt}
                             />
-                        ))}
-                    </div>
+                            ))}
+                        </div>
+                    </ScrollArea>
                     
 
                 </form>
