@@ -46,9 +46,9 @@ export default async function Dashboard() {
 
     // Fetch all the problems in parallel
     const [hotProblems, newProblems, topProblems] = await Promise.all([
-        fetchProblems(db, 'relevance', 20),
-        fetchProblems(db, 'createdAt', 20),
-        fetchProblems(db, 'score', 20),
+        fetchProblems(db, 'relevance', 40),
+        fetchProblems(db, 'createdAt', 40),
+        fetchProblems(db, 'score', 40),
     ]);
 
     const renderProblems = (problems: Problem[]) => (

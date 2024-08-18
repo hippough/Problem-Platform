@@ -10,7 +10,7 @@ export default function Contact() {
           <Container>
             <h1>Contact Us</h1>
             <p>
-              If you have any questions or business inquiries,
+              If you have any questions, suggestions, or business inquiries,
             </p>
             <p>
               You can contact us via email at{" "}
