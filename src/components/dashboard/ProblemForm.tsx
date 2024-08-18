@@ -7,6 +7,7 @@ import { Toaster, toast } from "sonner";
 
 export default function ProblemForm() {
     const [description, setDescription] = useState('');
+    const [anonymous, setAnonymous] = useState(false);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -22,11 +23,12 @@ export default function ProblemForm() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ description }),
+                body: JSON.stringify({ description, anonymous }),
             });
 
             if (response.ok) {
                 setDescription('');
+                setAnonymous(false);
                 toast.success('Problem posted successfully!');
             } else {
                 throw new Error('Failed to post problem');
@@ -37,7 +39,6 @@ export default function ProblemForm() {
     };
 
     return (
-        
         <form onSubmit={handleSubmit} className="space-y-4">
             <Textarea
                 name="description"
@@ -47,6 +48,16 @@ export default function ProblemForm() {
                 placeholder="Describe your problem..."
                 className="w-full h-32 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
+            <div className="flex items-center space-x-2">
+                <input
+                    type="checkbox"
+                    id="anonymous"
+                    checked={anonymous}
+                    onChange={() => setAnonymous(!anonymous)}
+                    className="h-4 w-4 text-blue-600 border-gray-300 rounded"
+                />
+                <label htmlFor="anonymous" className="text-sm text-gray-600">Post anonymously</label>
+            </div>
             <Button
                 type="submit"
                 className="w-full"
@@ -54,6 +65,5 @@ export default function ProblemForm() {
                 Post Problem
             </Button>
         </form>
-        
     );
 }

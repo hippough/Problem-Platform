@@ -6,7 +6,7 @@ import { ObjectId } from 'mongodb';
 export async function POST(req: NextRequest) {
     try {
         // Parse request body
-        const { description } = await req.json();
+        const { description, anonymous } = await req.json();
 
         // Check user authentication
         const session = await auth();
@@ -17,18 +17,36 @@ export async function POST(req: NextRequest) {
         // Access the database collection
         const problems = client.db().collection('problems');
 
-        // Create a new problem document
-        const newProblem = await problems.insertOne({ 
-            description: description,
-            userId: new ObjectId(session.user!.id),
-            name: session.user!.name,
-            likes: [],
-            dislikes: [],
-            comments: [],
-            score: 0,
-            relevance: 0,
-            createdAt: new Date()
-        });
+        let newProblem;
+
+        if(anonymous == false){
+            // Create a new problem document
+            newProblem = await problems.insertOne({ 
+                description: description,
+                userId: new ObjectId(session.user!.id),
+                name: session.user!.name,
+                likes: [],
+                dislikes: [],
+                comments: [],
+                score: 0,
+                relevance: 0,
+                createdAt: new Date()
+            });
+        } else {
+            newProblem = await problems.insertOne({
+                description: description,
+                userId: new ObjectId(session.user!.id),
+                name: "Anonymous",
+                likes: [],
+                dislikes: [],
+                comments: [],
+                score: 0,
+                relevance: 0,
+                createdAt: new Date()
+            })
+        }
+
+        
 
         // Respond with success
         return NextResponse.json({ success: true, data: newProblem }, { status: 201 });
