@@ -1,68 +1,47 @@
-"use client"
+"use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { Section, Container } from "@/components/craft";
 import { Button } from "@/components/ui/button";
-import PostProblemImage from "../../../public/post_problem.png"; // Add your image paths here
-import ReactToProblemImage from "../../../public/react_problem.png"; // Add your image paths here
-import ShareThoughtsImage from "../../../public/comment_problem.png"; // Add your image paths here
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "../ui/accordion";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import Post from "./example-post";
 
 const Feature = () => {
-  const [activeItem, setActiveItem] = useState("item-1");
+  const [posts, setPosts] = useState<[]>([]);
 
-  const getImageSrc = () => {
-    switch (activeItem) {
-      case "item-1":
-        return PostProblemImage;
-      case "item-2":
-        return ReactToProblemImage;
-      case "item-3":
-        return ShareThoughtsImage;
-      default:
-        return "";
-    }
-  };
+  useEffect(() => {
+    // Fetch recent posts from the API
+    const fetchPosts = async () => {
+      try {
+        const response = await fetch("/api/recent"); // Adjust the API route as needed
+        const data = await response.json();
+        setPosts(data.posts);
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+      }
+    };
+
+    fetchPosts();
+  }, []);
 
   return (
     <Section>
-      <Container className="grid items-stretch md:grid-cols-2 md:gap-12">
-        <div className="flex flex-col py-6">
-          <h3 className="!my-0 text-base">Interact With Others</h3>
-          <Accordion 
-            type="single" 
-            className="w-full" 
-            value={activeItem} 
-            onValueChange={setActiveItem}
-          >
-            <AccordionItem value="item-1">
-              <AccordionTrigger className="text-sm md:text-x py-1">Post your problem.</AccordionTrigger>
-              <AccordionContent className="text-sm md:text-s">
-                Share your issues with the world and seek improvements.
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-2">
-              <AccordionTrigger className="text-sm md:text-s py-1">React to other problems.</AccordionTrigger>
-              <AccordionContent className="text-sm md:text-s">
-                Like or dislike, let others know your reaction.
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-3">
-              <AccordionTrigger className="text-sm md:text-s py-1">Share your thoughts.</AccordionTrigger>
-              <AccordionContent className="text-sm md:text-s">
-                Add comments to problems you are interested in.
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
-        </div>
-        <div className="not-prose relative flex h-96 overflow-hidden rounded-lg border">
-          <Image
-            src={getImageSrc()}
-            alt="feature image"
-            className="fill object-cover"
+      <Container>
+        <h2 className="text-2xl font-bold mb-4">Recent Posts</h2>
+        <div className="py-4 space-y-4">
+          {posts.map((problem: any) => (
+              <Post
+              key={problem._id.toString()}
+              user={problem.name}
+              text={problem.description}
+              createdAt={problem.createdAt}
+              likes={problem.likes.length}
+              dislikes={problem.dislikes.length}
+              comments={problem.comments.length}
+              
           />
+          ))}
         </div>
       </Container>
     </Section>
