@@ -73,7 +73,7 @@ const CommentButton: FC<comment> = ({ num: num, postString: postString, text: te
 
             if (response.ok) {
                 setDescription('');
-                toast.success('Comment posted successfully!');
+                toast.success('Comment posted successfully! Reload the page to view.');
             } else {
                 throw new Error('Failed to post comment');
             }

@@ -29,7 +29,7 @@ export default function ProblemForm() {
             if (response.ok) {
                 setDescription('');
                 setAnonymous(false);
-                toast.success('Problem posted successfully!');
+                toast.success('Problem posted successfully! Reload the page to view.');
             } else {
                 throw new Error('Failed to post problem');
             }
