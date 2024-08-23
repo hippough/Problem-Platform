@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Toaster } from 'sonner';
 import { auth } from '../../../../../../auth';
-import CommentCard from '@/components/dashboard/comment-card';
+import CommentCard from '../../../../../components/dashboard/comment-card';
 import Searchbar from '@/components/dashboard/search';
 import CommentForm from '@/components/dashboard/comment-form';
 import { base62Decode, base62Encode, createSlug, getUserInteraction } from '../../../../../../lib/functions';

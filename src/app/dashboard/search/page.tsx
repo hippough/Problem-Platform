@@ -1,5 +1,5 @@
 import { fetchProblems } from '@/actions/actions';
-import Searchbar from '@/components/dashboard/search';
+import Searchbar from '../../../components/dashboard/search';
 import Post from '@/components/dashboard/post';
 import client from '../../../../lib/db';
 import { base62Encode, getUserInteraction } from '../../../../lib/functions';
