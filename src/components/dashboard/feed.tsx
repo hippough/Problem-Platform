@@ -6,7 +6,7 @@ import { Card } from "../ui/card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "../ui/tabs";
 import { Flame, Sparkles, ChartColumnIncreasing } from "lucide-react";
 import { Document } from 'mongodb'
-import Post from "./post";
+import Post from "../dashboard/post";
 
 import { fetchProblems } from '@/actions/actions';
 import { useState, useEffect } from 'react';
