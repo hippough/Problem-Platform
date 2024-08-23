@@ -6,6 +6,7 @@ import { ThumbsUp } from "lucide-react"
 import { ThumbsDown } from "lucide-react"
 import { Toaster, toast } from "sonner"
 import { ObjectId } from "mongodb"
+import { dislike, like, remove } from "@/actions/actions"
 
 interface toggleNums{
     likes: number;
@@ -17,15 +18,7 @@ interface toggleNums{
 
 }
 
-
-
-
 const Toggles: FC<toggleNums> = ({ likes, dislikes, problemId, state }) => {
-
-
-
-    let liked = false;
-    let disliked = false;
 
     let defaultValue;
 
@@ -56,33 +49,11 @@ const Toggles: FC<toggleNums> = ({ likes, dislikes, problemId, state }) => {
             
 
             try {
-                const response = await fetch('/api/like', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ problemId }),
-                });
-    
-                if (response.ok) {
-                    // Assuming response.json() returns { success: true }
-                    const data = await response.json();
-                    if (data.message === 'User already liked this problem') {
-                        toast.info('You have already liked this problem.');
-                        setL(likes);
-                        setD(dislikes);
-                    } else if (data.success) {
-                        toast.success('Liked!');
-                    }
+                const response = await like({ problemId });
+                if (response) {
+                    toast.success("Liked!");
                 } else {
-                    const data = await response.json();
-                    if (data.message === 'Unauthorized') {
-                        toast.error('You need to log in to like this.');
-                    } else if (data.message === 'Problem not found') {
-                        toast.error('Problem not found.');
-                    } else {
-                        toast.error('Failed to like.');
-                    }
+                    throw new Error('Failed to like');
                 }
                 
             } catch (error) {
@@ -94,33 +65,12 @@ const Toggles: FC<toggleNums> = ({ likes, dislikes, problemId, state }) => {
             setD(dislikes+1);
 
             try {
-                const response = await fetch('/api/dislike', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ problemId }),
-                });
+                const response = await dislike({ problemId });
     
-                if (response.ok) {
-                    // Assuming response.json() returns { success: true }
-                    const data = await response.json();
-                    if (data.message === 'User already disliked this problem') {
-                        toast.info('You have already disliked this problem.');
-                        setL(likes);
-                        setD(dislikes);
-                    } else if (data.success) {
-                        toast.success('Disliked!');
-                    }
+                if (response) {
+                    toast.success("Disliked!");
                 } else {
-                    const data = await response.json();
-                    if (data.message === 'Unauthorized') {
-                        toast.error('You need to log in to dislike this.');
-                    } else if (data.message === 'Problem not found') {
-                        toast.error('Problem not found.');
-                    } else {
-                        toast.error('Failed to dislike.');
-                    }
+                    throw new Error('Failed to dislike');
                 }
                 
             } catch (error) {
@@ -131,20 +81,11 @@ const Toggles: FC<toggleNums> = ({ likes, dislikes, problemId, state }) => {
             setD(dislikes);
 
             try {
-                const response = await fetch('/api/undo', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ problemId }),
-                });
-
-                
-
-                if(response.ok){
+                const response = await remove({ problemId });
+                if(response){
                     toast.success("Removed.");
                 } else{
-                    toast.error("Problem not found");
+                    throw new Error('Failed to remove');
                 }
             } catch (error) {
                 toast.error('An error occurred. Please try again.');
