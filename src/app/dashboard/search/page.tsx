@@ -9,7 +9,7 @@ import { redirect } from 'next/navigation';
 import { Metadata } from 'next';
 import Head from 'next/head';
 
-export async function generateMetadata(searchParams: { [key: string]: string | string[] | undefined }): Promise<Metadata> {
+export async function generateMetadata( { searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }): Promise<Metadata> {
     // Extract search query
     const query = Array.isArray(searchParams.q) ? searchParams.q[0] : searchParams.q || '';
 
@@ -72,7 +72,7 @@ export default async function page({ searchParams }: { searchParams: { [key: str
             
             <Searchbar />
             <div className="max-w-4xl mx-auto mt-8">
-                <h1 className="text-2xl font-semibold mb-6">Search Results for "{query}"</h1>
+                <h1 className="text-2xl font-semibold mb-6">Search Results for {query}</h1>
                 <div className="space-y-4 mb-4">
                     {results.map(( problem, index ) => (
                         <Post

@@ -1,8 +1,6 @@
 "use client";
 
 import { useSearchParams, useRouter } from 'next/navigation';
-import { SignOutButton } from "../sign-out-button";
-import { Card } from "../ui/card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "../ui/tabs";
 import { Flame, Sparkles, ChartColumnIncreasing } from "lucide-react";
 import { Document } from 'mongodb'
