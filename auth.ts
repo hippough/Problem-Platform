@@ -1,5 +1,6 @@
 import NextAuth from "next-auth"
 import Google from "next-auth/providers/google"
+import Resend from "next-auth/providers/resend"
 import { MongoDBAdapter } from "@auth/mongodb-adapter"
 import client from "./lib/db"
 
@@ -43,6 +44,9 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
             },
         },
         allowDangerousEmailAccountLinking: true
+    }),
+    Resend({
+      from: "no-reply@theproblemplatform.com"
     })
   ],
   pages: {
@@ -69,7 +73,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
             );
           } else {
             const newUser = {
-              name: user.name,
+              name: user.name || user.email?.split("@")[0],
               email: user.email,
               image: user.image,
               emailVerified: null,
