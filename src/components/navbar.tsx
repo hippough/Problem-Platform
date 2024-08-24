@@ -35,6 +35,9 @@ export default function Navbar() {
         <NavigationMenu className="flex">
           <NavigationMenuList className="flex">
             <NavigationMenuItem>
+              <NavigationMenuLink href="/dashboard" className={navigationMenuTriggerStyle()}>Dashboard</NavigationMenuLink>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
               <NavigationMenuLink href="/#features" className={navigationMenuTriggerStyle()}>Features</NavigationMenuLink>
             </NavigationMenuItem>
             <NavigationMenuItem>

@@ -38,10 +38,6 @@ export async function generateMetadata({ params }: { params: { problemId: string
 const ProblemPage = async ({ params }: { params: { problemId: string, slug: string } }) => {
 
     const session = await auth();
-    if (!session) {
-        redirect('/sign-in');
-        return null;
-    }
 
   const pId = base62Decode(params.problemId);
 
@@ -70,7 +66,7 @@ const ProblemPage = async ({ params }: { params: { problemId: string, slug: stri
     <> 
         <main>
             <Toaster />
-            <Searchbar />
+            <Searchbar name={session?.user!.name as string} auth={session ? true : false} img={session?.user!.image as string}/>
             <div className="max-w-4xl mx-auto p-4">
                 <Card className="p-6 flex">
                     {/* Problem Details */}
@@ -87,7 +83,7 @@ const ProblemPage = async ({ params }: { params: { problemId: string, slug: stri
                             likes={problem.likes.length}
                             dislikes={problem.dislikes.length}
                             problemId={base62Encode(problem._id.toString())}
-                            state={getUserInteraction(new ObjectId(session.user!.id), problem.likes, problem.dislikes)} // Pass the current like/dislike state here
+                            state={session ? getUserInteraction(new ObjectId(session.user!.id), problem.likes, problem.dislikes) : 0} // Pass the current like/dislike state here
                         />
                     </div>
                 </Card>

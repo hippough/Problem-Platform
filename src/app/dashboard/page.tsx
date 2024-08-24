@@ -30,16 +30,13 @@ type Problem = {
 
 export default async function Page({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
     const session = await auth();
-    if (!session) {
-        redirect('/sign-in');
-        return null;
-    }
+    
 
     // Correct the typo and ensure searchParams.search is a string
     const search = typeof searchParams.search === 'string' ? searchParams.search : undefined;
 
     const db = client.db();
-    const userId = session.user!.id;
+    const userId = session?.user!.id;
     
     async function fetchProblems(db: any, sortField: string, limit: number): Promise<Problem[]> {
         return db.collection("problems").find().sort({ [sortField]: -1 }).limit(limit).toArray();
@@ -93,7 +90,7 @@ export default async function Page({ searchParams }: { searchParams: { [key: str
         <SessionProvider>
             <main>
                 <Toaster />
-                <Searchbar />
+                <Searchbar name={session?.user!.name as string} auth={session ? true : false} img={session?.user!.image as string}/>
                 <ProblemForm />
                 <Feed initialHot={initialHot} initialNew={initialNew} initialTop={initialTop} totalProblemsNumber={hotProblems.length} />
             </main>

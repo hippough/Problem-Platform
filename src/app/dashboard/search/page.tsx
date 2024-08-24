@@ -25,14 +25,10 @@ export async function generateMetadata( { searchParams }: { searchParams: { [key
 export default async function page({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
 
     const session = await auth();
-    if (!session) {
-        redirect('/sign-in');
-        return null;
-    }
 
     const query = Array.isArray(searchParams.q) ? searchParams.q[0] : searchParams.q || ''; // Get the search query from the URL
     const db = client.db();
-    const userId = session.user!.id;
+    const userId = session?.user!.id;
 
     const pipeline: PipelineStage[] = [{ $skip: 0 }, { $limit: 30 }]
 
@@ -64,13 +60,13 @@ export default async function page({ searchParams }: { searchParams: { [key: str
         dislikes: problem.dislikes.length,
         comments: problem.comments.length,
         createdAt: problem.createdAt, 
-        state: getUserInteraction(new ObjectId(userId), problem.likes, problem.dislikes) // Custom logic for interaction state
+        state: session ? getUserInteraction(new ObjectId(userId), problem.likes, problem.dislikes) : 0// Custom logic for interaction state
     }));;
 
     return (
         <>
             
-            <Searchbar />
+            <Searchbar name={session?.user!.name as string} auth={session ? true : false} img={session?.user!.image as string}/>
             <div className="max-w-4xl mx-auto mt-8">
                 <h1 className="text-2xl font-semibold mb-6">Search Results for {query}</h1>
                 <div className="space-y-4 mb-4">

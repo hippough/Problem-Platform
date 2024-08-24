@@ -9,13 +9,9 @@ import { base62Decode, base62Encode, calculateRelevance, getUserInteraction } fr
 
 export async function fetchProblems({ sortField, limit, page = 1, search }: { sortField: string; limit: number; page: number, search?: string }) {
     const session = await auth();
-    if (!session) {
-        redirect('/sign-in');
-        return null;
-    }
 
     const db = client.db();
-    const userId = session.user!.id;
+    const userId = session?.user!.id;
     const problemsCollection = db.collection("problems");
 
     try {
@@ -37,7 +33,7 @@ export async function fetchProblems({ sortField, limit, page = 1, search }: { so
             dislikes: problem.dislikes.length,
             comments: problem.comments.length,
             createdAt: problem.createdAt, 
-            state: getUserInteraction(new ObjectId(userId), problem.likes, problem.dislikes) // Custom logic for interaction state
+            state: session ? getUserInteraction(new ObjectId(userId), problem.likes, problem.dislikes) : 0 // Custom logic for interaction state
         }));;
     } catch (error) {
         console.error("Failed to fetch problems:", error);
@@ -52,13 +48,14 @@ export async function postProblem({
     description: string;
     anonymous: boolean;
   }) {
-    try {
-      const session = await auth();
+    const session = await auth();
   
-      if (!session) {
+    if (!session) {
         redirect('/sign-in');
         return null;
-      }
+    }
+
+    try {
 
       if(description.length > 500){
         return null;
@@ -90,12 +87,15 @@ export async function postProblem({
 }
   
 export async function postComment({ problemId, description } : { problemId: string, description: string }){
+
+    // Check user authentication
+    const session = await auth();
+    if (!session) {
+        redirect('/sign-in');
+    }
+
     try {      
-        // Check user authentication
-        const session = await auth();
-        if (!session) {
-            redirect('/sign-in');
-        }
+        
 
         if(description.length > 500){
             return null;
@@ -154,14 +154,14 @@ export async function postComment({ problemId, description } : { problemId: stri
 }
 
 export async function like({ problemId } : { problemId: string }){
-    try {
-        
 
-        // Check user authentication
-        const session = await auth();
-        if (!session) {
-            redirect('/sign-in')
-        }
+    // Check user authentication
+    const session = await auth();
+    if (!session) {
+        redirect('/sign-in')
+    }
+
+    try {
 
         // Access the database collection
         const problems = client.db().collection('problems');
@@ -217,12 +217,13 @@ export async function like({ problemId } : { problemId: string }){
 }
 
 export async function dislike({ problemId }: { problemId: string }){
+    // Check user authentication
+    const session = await auth();
+    if (!session) {
+        redirect('/sign-in');
+    }
+
     try {
-        // Check user authentication
-        const session = await auth();
-        if (!session) {
-            redirect('/sign-in');
-        }
 
         // Access the database collection
         const problems = client.db().collection('problems');
@@ -276,13 +277,14 @@ export async function dislike({ problemId }: { problemId: string }){
 }
 
 export async function remove({ problemId }: { problemId: string }){
-    try {
 
-        // Check user authentication
-        const session = await auth();
-        if (!session) {
-            redirect('/sign-in');
-        }
+    // Check user authentication
+    const session = await auth();
+    if (!session) {
+        redirect('/sign-in');
+    }
+
+    try {
 
         // Access the database collection
         const problems = client.db().collection('problems');
