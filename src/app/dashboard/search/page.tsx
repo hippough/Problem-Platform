@@ -64,7 +64,7 @@ export default async function page({ searchParams }: { searchParams: { [key: str
     }));;
 
     return (
-        <>
+        <div className="px-4">
             
             <Searchbar name={session?.user!.name as string} auth={session ? true : false} img={session?.user!.image as string}/>
             <div className="max-w-4xl mx-auto mt-8">
@@ -85,7 +85,7 @@ export default async function page({ searchParams }: { searchParams: { [key: str
                     ))}
                 </div>
             </div>
-        </>
+        </div>
         
     );
 }

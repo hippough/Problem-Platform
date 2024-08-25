@@ -35,35 +35,38 @@ export default function ProblemForm() {
     };
 
     return (
-        <Card className="mt-2 p-6 max-w-3xl mx-auto">
-            <h2 className="text-xl font-semibold mb-4">Create New Problem</h2>
-            
-            <form onSubmit={handleSubmit} className="space-y-4">
-                <Textarea
-                    name="description"
-                    value={description}
-                    maxLength={500}
-                    onChange={(e) => setDescription(e.target.value)}
-                    placeholder="Describe your problem..."
-                    className="w-full h-32 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-                <div className="flex items-center space-x-2">
-                    <input
-                        type="checkbox"
-                        id="anonymous"
-                        checked={anonymous}
-                        onChange={() => setAnonymous(!anonymous)}
-                        className="h-4 w-4 text-blue-600 border-gray-300 rounded"
+        <div className="px-2">
+            <Card className="mt-2 p-6 max-w-3xl mx-auto">
+                <h2 className="text-xl font-semibold mb-4">Create New Problem</h2>
+                
+                <form onSubmit={handleSubmit} className="space-y-4">
+                    <Textarea
+                        name="description"
+                        value={description}
+                        maxLength={500}
+                        onChange={(e) => setDescription(e.target.value)}
+                        placeholder="Describe your problem..."
+                        className="w-full h-32 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
-                    <label htmlFor="anonymous" className="text-sm text-gray-600">Post anonymously</label>
-                </div>
-                <Button
-                    type="submit"
-                    className="w-full"
-                >
-                    Post Problem
-                </Button>
-            </form>
-        </Card>
+                    <div className="flex items-center space-x-2">
+                        <input
+                            type="checkbox"
+                            id="anonymous"
+                            checked={anonymous}
+                            onChange={() => setAnonymous(!anonymous)}
+                            className="h-4 w-4 text-blue-600 border-gray-300 rounded"
+                        />
+                        <label htmlFor="anonymous" className="text-sm text-gray-600">Post anonymously</label>
+                    </div>
+                    <Button
+                        type="submit"
+                        className="w-full"
+                    >
+                        Post Problem
+                    </Button>
+                </form>
+            </Card>
+        </div>
+        
     );
 }

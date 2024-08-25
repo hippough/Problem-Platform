@@ -15,13 +15,10 @@ const Searchbar = ({ search, name, img, auth }: { search?: string, name?: string
   const router = useRouter();
   const initialRender = useRef(true);
   
-
   const [text, setText] = useState(search);
 
-
   const handleSearch = () => {
-    if(!text) return;
-    
+    if (!text) return;
     router.push(`/dashboard/search?q=${text}`);
   };
 
@@ -31,51 +28,49 @@ const Searchbar = ({ search, name, img, auth }: { search?: string, name?: string
     }
   };
 
-
   return (
-    
-    <div className={`flex w-full items-center p-4 mx-auto justify-between max-w-${auth ? 4 : 3}xl`}>
-      <Link href="/dashboard" className="flex items-center mr-auto">
+    <div className="flex flex-col sm:flex-row items-center w-full p-4 mx-auto max-w-3xl">
+      {/* Logo Section */}
+      <Link href="/dashboard" className="flex items-center space-x-2 sm:space-x-4 flex-shrink-0">
         <Image
           src="/icon_light.svg" // Replace with your logo path
           alt="Logo"
-          width={60}
-          height={60}
+          width={40}
+          height={40}
         />
-        <span className="text-xl font-semibold ml-2">Problem Platform</span>
+        <span className="text-lg font-semibold">Problem Platform</span>
       </Link>
-      <div className="flex items-center space-x-2">
+
+      {/* Search Section */}
+      <div className="flex items-center space-x-2 w-full sm:flex-grow sm:ml-4 order-3 sm:order-2 mt-4 sm:mt-0">
         <Input
           value={text}
           placeholder="Search problems..."
           onChange={(e) => setText(e.target.value)}
           onKeyDown={handleKeyPress}
-          className=""
+          className="w-full sm:flex-grow"
         />
-        <Button variant="ghost" className="" aria-label="Search" onClick={handleSearch}>
+        <Button variant="ghost" aria-label="Search" onClick={handleSearch}>
           <Search className="h-5 w-5 text-gray-400" aria-hidden="true" />
         </Button>
+      </div>
 
+      {/* User Actions Section */}
+      <div className="flex items-center space-x-3 order-2 sm:order-3 sm:ml-auto flex-shrink-0 mt-4 sm:mt-0">
         {auth ? (
-          <>
-          <div className="flex items-center space-x-3 bg-gray-200 px-4 py-2 rounded-full">
+          <div className="flex items-center space-x-2">
             <Avatar className="h-8 w-8">
               <AvatarImage src={img} alt={name} />
               <AvatarFallback className="bg-gray-500 text-white">{name?.charAt(0)}</AvatarFallback>
             </Avatar>
-            <span className="text-sm text-gray-800 font-semibold">{name}</span>
+            <span className="text-sm text-gray-800 font-semibold hidden sm:block">{name}</span>
+            <SignOutButton />
           </div>
-          <SignOutButton />
-        </>
-        
-          
         ) : (
           <Button variant="ghost" asChild>
             <Link href="/sign-in">Sign In</Link>
           </Button>
         )}
-        
-        
       </div>
     </div>
   );

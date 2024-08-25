@@ -37,8 +37,6 @@ const Toggles: FC<toggleNums> = ({ likes, dislikes, problemId, state }) => {
 
     const [value, setValue] = useState<string | undefined>(undefined);
 
-    
-
     const handleValueChange = async (newValue: string | undefined) => {
         // Allow deselecting the current value
         
@@ -96,7 +94,7 @@ const Toggles: FC<toggleNums> = ({ likes, dislikes, problemId, state }) => {
 
     return (
         
-        <ToggleGroup className="flex-col" type="single" value={value} onValueChange={handleValueChange} defaultValue={defaultValue}>
+        <ToggleGroup className="flex-col" type="single" value={value} onValueChange={handleValueChange} defaultValue={defaultValue} >
             <ToggleGroupItem value="like" size="sm" className="text-gray-500">
                 <ThumbsUp size={20} />
                 <span className="ml-1">{l}</span>

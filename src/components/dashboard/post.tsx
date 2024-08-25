@@ -26,9 +26,9 @@ const Post: FC<PostProps> = ({ user, text, likes, dislikes, comments, createdAt,
   
 
   return (
-    <Card className="p-4">
+    <Card className="p-4" >
       <div className="flex justify-between">
-        <div className="w-full max-w-[calc(100%-120px)] pr-4">
+        <div className="w-full max-w-[calc(100%-30px)] pr-4">
           <p className="text-sm text-gray-500">Posted by {user} {timeAgo(createdAt)}</p>
           <p className="mt-4">
             <Link href={`/dashboard/problem/${problemId}/${createSlug(text)}`}>
